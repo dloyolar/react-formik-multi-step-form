@@ -1,34 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { TextField, Button } from '@mui/material';
+import { Formik, Form, Field } from 'formik';
+import * as yup from 'yup';
+import './App.css';
+import { InputField } from './components/InputField';
+
+const validationSchema = yup.object({
+  name: yup.string().required('Name is required'),
+  lastName: yup.string().required('Last name is required'),
+  email: yup.string().email('Enter a valid email').required('Email is required'),
+});
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Formik
+        initialValues={{ name: '', email: '', lastName: '' }}
+        onSubmit={(values) => alert(JSON.stringify(values, null, 3))}
+        validationSchema={validationSchema}
+      >
+        {({ getFieldProps, errors, touched }) => (
+          <Form>
+            <InputField name="name" label="Name" />
+
+            <InputField name="email" label="Email" />
+
+            <TextField
+              fullWidth
+              label="Last Name"
+              {...getFieldProps('lastName')}
+              error={touched.lastName && !!errors.lastName}
+              helperText={touched.lastName && errors.lastName}
+            />
+
+            <Button
+              type="submit"
+              color="primary"
+              variant="contained"
+              fullWidth
+              style={{ marginTop: 30 }}
+            >
+              Send
+            </Button>
+          </Form>
+        )}
+      </Formik>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
