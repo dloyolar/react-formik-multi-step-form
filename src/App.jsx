@@ -18,19 +18,11 @@ function App() {
         onSubmit={(values) => alert(JSON.stringify(values, null, 3))}
         validationSchema={validationSchema}
       >
-        {({ getFieldProps, errors, touched }) => (
+        {() => (
           <Form>
             <InputField name="name" label="Name" />
-
+            <InputField name="lastName" label="Last Name" />
             <InputField name="email" label="Email" />
-
-            <TextField
-              fullWidth
-              label="Last Name"
-              {...getFieldProps('lastName')}
-              error={touched.lastName && !!errors.lastName}
-              helperText={touched.lastName && errors.lastName}
-            />
 
             <Button
               type="submit"
