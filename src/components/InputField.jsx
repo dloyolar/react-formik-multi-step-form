@@ -15,5 +15,5 @@ export const InputField = ({ name, ...props }) => {
     configTextField.helperText = meta.error;
   }
 
-  return <TextField {...configTextField} />;
+  return <TextField {...configTextField} sx={{ my: 1 }} />;
 };
